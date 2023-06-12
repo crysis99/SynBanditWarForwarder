@@ -12,7 +12,7 @@ namespace SynBanditWarForwarder
         {
             return await SynthesisPipeline.Instance
                 .AddPatch<ISkyrimMod, ISkyrimModGetter>(RunPatch)
-                .SetTypicalOpen(GameRelease.SkyrimSE, "YourPatcher.esp")
+                .SetTypicalOpen(GameRelease.SkyrimSE, "SynBanditWarForwarder.esp")
                 .Run(args);
         }
         public static bool ItemEquivalence(IReadOnlyList<IContainerEntryGetter>? item1, IReadOnlyList<IContainerEntryGetter>? item2)
@@ -113,6 +113,7 @@ namespace SynBanditWarForwarder
                 var bweOverride = bweWinningOverride.DeepCopy();
                 if(npcRecordContextArray.Count()>1&&!(BWEquivalence(bweNPC,bweWinningOverride)||npcRecordContextArray[npcRecordContextArray.Count()-1].ModKey.Name.Contains("Bandit War")))
                 {
+                    
                     for(int i = 0;i<npcRecordContextArray.Count()-1;i++)
                     {
                         var currNPCRecord = npcRecordContextArray[i].Record;
@@ -291,10 +292,9 @@ namespace SynBanditWarForwarder
                 if(!BWEquivalence(bweOverride,bweWinningOverride))
                 {
                     Console.WriteLine("Patched: "+bweOverride.EditorID);
-                    state.PatchMod.Npcs.Add(bweOverride);
+                    state.PatchMod.Npcs.GetOrAddAsOverride(bweOverride);
                 }
             }
-
         }
 
     }
